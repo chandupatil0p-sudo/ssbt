@@ -1,0 +1,53 @@
+->%{
+#include "cfg.tab.h"   // Header from Bison
+%}
+
+%%
+
+"0"         { return ZERO; }
+"1"         { return ONE; }
+[\n]        { return NL; }
+.           ;   // Ignore any other character
+
+%%
+
+int yywrap(void) { return 1; }
+
+
+command -->nano cfg.y
+
+code->%{
+#include <stdio.h>
+int flag = 0;
+int yylex(void);
+void yyerror(const char *s);
+%}
+
+%token ONE ZERO NL
+
+%%
+start : str NL   { printf("\nEntered string is Valid for L = {0^n1^n}\n"); return 0; }
+      ;
+
+str : ZERO str ONE
+    | ZERO ONE
+    ;
+%%
+
+int main(void)
+{
+    printf("\nEnter a string (any combination of 0s and 1s):\n");
+    yyparse();
+
+    if (flag == 0)
+        printf("Parsing completed successfully.\n");
+
+    return 0;
+}
+
+void yyerror(const char *s)
+{
+    printf("\nEntered string is Invalid for L = {0^n1^n}\n");
+    flag = 1;
+}
+
