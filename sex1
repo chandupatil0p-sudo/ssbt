@@ -1,0 +1,106 @@
+ %{ 
+#include<math.h>
+ FILE *fp; 
+%} 
+digit 
+header 
+inbuilt 
+[0-9]+ 
+"#include<"[a-z]+".h>" 
+[\t]*"printf(".*")"|[\t]*"scanf(".*")"|[\t]*"clrscr()"|[\t]*"getch( 
+)"|[\t]*"exit(.+)"\n 
+comment 
+]*"/*".*"*/"[\t]*\n main_function 
+function 
+[\t 
+"void main()" 
+[\t]*[a-zA-Z]+"(".*")"[\t]*\n datatype 
+"+"|"-"|"*"|"/" 
+[\t ]*"int"|[\t ]*"char"|[\t ]*"float" operator 
+bracket1 
+terminator 
+[\t]*"{"[\t]* bracket2 
+loop 
+";" 
+[\t]*"}"[\t]* 
+[\t ]*"if(".*")"|[\t ]*"else"|[\t ]*"for"|[\t ]*"while"|[\t 
+]*"do" 
+relational [\t]*"<"|">"|"<="|">="|"=="|"="|"!="|"%" 
+logical
+ word 
+%% 
+{digit} 
+{header} 
+{inbuilt} 
+{comment} 
+[\t]*"&&"|"||" 
+[a-z]+[a-z0-9]* 
+{printf("\n Numbers 
+{printf("\n Header File 
+{printf("\n Function 
+{printf("\n Comment 
+{main_function} {printf("\n Main Function 
+{function} 
+{datatype} 
+{operator} 
+{terminator} 
+{bracket1} 
+{bracket2} 
+{relational} 
+{loop} 
+{logical} 
+{word} 
+%%
+ {printf("\n User function 
+{printf("\n Datatype 
+{printf("\n Operator 
+{printf("\n Terminator 
+:: %s",yytext);} 
+:: %s",yytext);} 
+:: %s",yytext);} 
+:: %s",yytext);} 
+:: %s",yytext);} 
+:: %s",yytext);} 
+:: %s",yytext);} 
+:: %s",yytext);} 
+:: %s",yytext);} 
+{printf("\n Opening curly bracket:: %s",yytext);} 
+{printf("\n Closing curly bracket:: %s",yytext);} 
+{printf("\n Realtional operator 
+{printf("\n Loop Statement 
+{printf("\n Logical Operator 
+{printf("\n Variables 
+:: %s",yytext);} 
+:: %s",yytext);} 
+:: %s",yytext);} 
+:: %s",yytext);} 
+intmain(int argc,char *argv[])
+ {
+ fp=fopen(argv[1],"r");
+if(fp!=NULL)
+ {
+ yyin=fp;
+ yylex();
+ return(0);
+ }
+ //input.txt 
+}
+ #include<stdio.h> 
+#include<conio.h> 
+void main()
+ {
+ clrscr()
+ int no;
+ printf("\nEnter the number::"); 
+scanf("%d",&no); 
+if(no%2==0) 
+{ 
+else
+ {
+ }
+ printf("\nEntered Number is EVEN"); 
+}
+ printf("\nEntered Number is ODD"); 
+getch();
+ }
+ 
