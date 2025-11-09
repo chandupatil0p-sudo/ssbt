@@ -1,0 +1,61 @@
+🗄 1. Database
+
+In phpMyAdmin, run:
+
+CREATE DATABASE student_db;
+
+USE student_db;
+
+CREATE TABLE students (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100),
+  email VARCHAR(100)
+);
+
+🧩 2. PHP Files
+📄 db.php
+<?php
+$conn = mysqli_connect("localhost", "root", "", "student_db");
+if (!$conn) { die("Connection failed: ".mysqli_connect_error()); }
+?>
+
+📄 add.php
+<?php
+include('db.php');
+
+if(isset($_POST['submit'])){
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    mysqli_query($conn, "INSERT INTO students (name,email) VALUES ('$name','$email')");
+    echo "Student Added!";
+}
+?>
+
+<h2>Add Student</h2>
+<form method="post">
+    Name: <input type="text" name="name" required><br><br>
+    Email: <input type="email" name="email" required><br><br>
+    <input type="submit" name="submit" value="Add">
+</form>
+
+<a href="view.php">View Students</a>
+
+📄 view.php
+<?php
+include('db.php');
+$result = mysqli_query($conn, "SELECT * FROM students");
+?>
+
+<h2>Student List</h2>
+<table border="1">
+<tr><th>ID</th><th>Name</th><th>Email</th></tr>
+<?php while($row = mysqli_fetch_assoc($result)){ ?>
+<tr>
+    <td><?php echo $row['id']; ?></td>
+    <td><?php echo $row['name']; ?></td>
+    <td><?php echo $row['email']; ?></td>
+</tr>
+<?php } ?>
+</table>
+
+<a href="add.php">Add Student</a>
