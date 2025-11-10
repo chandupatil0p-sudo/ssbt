@@ -64,4 +64,7 @@ void yyerror(const char *s)
     printf("\nEntered arithmetic expression is invalid.\n");
     flag = 1;
 }
-
+Command to run --> bison -d calc.y 
+flex calc.l 
+gcc lex.yy.c calc.tab.c -o calc -lfl 
+./calc
