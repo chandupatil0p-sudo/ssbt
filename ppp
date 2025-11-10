@@ -51,3 +51,8 @@ void yyerror(const char *s)
     flag = 1;
 }
 
+command => 
+bison -d cfg.y 
+flex cfg.l 
+gcc lex.yy.c cfg.tab.c -o cfg -lfl 
+./cfg 
