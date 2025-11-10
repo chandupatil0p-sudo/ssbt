@@ -1,106 +1,94 @@
- %{ 
-#include<math.h>
- FILE *fp; 
-%} 
-digit 
-header 
-inbuilt 
-[0-9]+ 
-"#include<"[a-z]+".h>" 
-[\t]*"printf(".*")"|[\t]*"scanf(".*")"|[\t]*"clrscr()"|[\t]*"getch( 
-)"|[\t]*"exit(.+)"\n 
-comment 
-]*"/*".*"*/"[\t]*\n main_function 
-function 
-[\t 
-"void main()" 
-[\t]*[a-zA-Z]+"(".*")"[\t]*\n datatype 
-"+"|"-"|"*"|"/" 
-[\t ]*"int"|[\t ]*"char"|[\t ]*"float" operator 
-bracket1 
-terminator 
-[\t]*"{"[\t]* bracket2 
-loop 
-";" 
-[\t]*"}"[\t]* 
-[\t ]*"if(".*")"|[\t ]*"else"|[\t ]*"for"|[\t ]*"while"|[\t 
-]*"do" 
-relational [\t]*"<"|">"|"<="|">="|"=="|"="|"!="|"%" 
-logical
- word 
-%% 
-{digit} 
-{header} 
-{inbuilt} 
-{comment} 
-[\t]*"&&"|"||" 
-[a-z]+[a-z0-9]* 
-{printf("\n Numbers 
-{printf("\n Header File 
-{printf("\n Function 
-{printf("\n Comment 
-{main_function} {printf("\n Main Function 
-{function} 
-{datatype} 
-{operator} 
-{terminator} 
-{bracket1} 
-{bracket2} 
-{relational} 
-{loop} 
-{logical} 
-{word} 
+program1.l
+
+%{
+    #include<math.h>
+    FILE *fp;
+%}
+
+digit  		[0-9]+
+header 		"#include<"[a-z]+".h>"   
+inbuilt 	[\t]*"printf(".*")"|[\t]*"scanf(".*")"|[\t]*"clrscr()"|[\t]*"getch()"|[\t]*"exit(.+)"\n
+comment  	[\t ]*"/*".*"*/"[\t]*\n
+main_function   "void main()"
+function 	[\t]*[a-zA-Z]+"(".*")"[\t]*\n
+datatype  	[\t ]*"int"|[\t ]*"char"|[\t ]*"float"
+operator  	"+"|"-"|"*"|"/"
+terminator 	";"
+bracket1   	[\t]*"{"[\t]*
+bracket2   	[\t]*"}"[\t]*
+loop       	[\t ]*"if(".*")"|[\t ]*"else"|[\t ]*"for"|[\t ]*"while"|[\t ]*"do"
+relational 	[\t]*"<"|">"|"<="|">="|"=="|"="|"!="|"%"
+logical   	[\t]*"&&"|"||"
+word   		[a-z]+[a-z0-9]*
+
 %%
- {printf("\n User function 
-{printf("\n Datatype 
-{printf("\n Operator 
-{printf("\n Terminator 
-:: %s",yytext);} 
-:: %s",yytext);} 
-:: %s",yytext);} 
-:: %s",yytext);} 
-:: %s",yytext);} 
-:: %s",yytext);} 
-:: %s",yytext);} 
-:: %s",yytext);} 
-:: %s",yytext);} 
-{printf("\n Opening curly bracket:: %s",yytext);} 
-{printf("\n Closing curly bracket:: %s",yytext);} 
-{printf("\n Realtional operator 
-{printf("\n Loop Statement 
-{printf("\n Logical Operator 
-{printf("\n Variables 
-:: %s",yytext);} 
-:: %s",yytext);} 
-:: %s",yytext);} 
-:: %s",yytext);} 
-intmain(int argc,char *argv[])
- {
- fp=fopen(argv[1],"r");
-if(fp!=NULL)
- {
- yyin=fp;
- yylex();
- return(0);
- }
- //input.txt 
+
+{digit}        {printf("\n Numbers            	:: %s",yytext);}
+{header}       {printf("\n Header File        	:: %s",yytext);}
+{inbuilt}      {printf("\n Function           	:: %s",yytext);}
+{comment}      {printf("\n Comment            	:: %s",yytext);}
+{main_function} {printf("\n Main Function     	:: %s",yytext);} 
+{function}     {printf("\n User function      	:: %s",yytext);}
+{datatype}     {printf("\n Datatype 	      	:: %s",yytext);}
+{operator}     {printf("\n Operator 	      	:: %s",yytext);}
+{terminator}   {printf("\n Terminator 	      	:: %s",yytext);}
+{bracket1}     {printf("\n Opening curly bracket:: %s",yytext);}
+{bracket2}     {printf("\n Closing curly bracket:: %s",yytext);}
+{relational}   {printf("\n Realtional operator	:: %s",yytext);}
+{loop}         {printf("\n Loop Statement     	:: %s",yytext);}
+{logical}      {printf("\n Logical Operator   	:: %s",yytext);}
+{word}         {printf("\n Variables         	:: %s",yytext);}
+
+%%
+
+
+
+int main(int argc,char *argv[])
+{
+
+
+   fp=fopen(argv[1],"r");
+
+   if(fp!=NULL)
+   {
+      yyin=fp;
+      yylex();
+   }
+   return(0);
 }
- #include<stdio.h> 
-#include<conio.h> 
+
+input.txt:
+
+#include<stdio.h>
+#include<conio.h>
+
 void main()
- {
- clrscr()
- int no;
- printf("\nEnter the number::"); 
-scanf("%d",&no); 
-if(no%2==0) 
-{ 
-else
- {
- }
- printf("\nEntered Number is EVEN"); 
+{
+   clrscr()
+   int no;
+   printf("\nEnter the number::");
+   scanf("%d",&no);
+
+   if(no%2==0)
+   {
+      printf("\nEntered Number is EVEN");
+   }
+   else
+   {
+
+      printf("\nEntered Number is ODD");
+   }
+   getch();
 }
- printf("\nEntered Number is ODD"); 
-getch();
- }
- 
+
+command:
+nano pr1.l
+nano input.txt
+flex pr1.l
+gcc lex.yy.c -lfl -lm
+./a.out input.txt
+
+
+
+
+
